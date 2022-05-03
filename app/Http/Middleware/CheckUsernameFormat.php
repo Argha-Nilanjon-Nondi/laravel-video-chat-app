@@ -2,12 +2,11 @@
 
 namespace App\Http\Middleware;
 
-use App\Rules\EmailExist;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class CheckEmail
+class CheckUsernameFormat
 {
     /**
      * Handle an incoming request.
@@ -18,23 +17,22 @@ class CheckEmail
      */
     public function handle(Request $request, Closure $next)
     {
-        $message=[
-            "email.required"=>["code"=>3001,"message"=>"email is required"],
-            "email.email" => ["code" => 3002,"message" => "email address is invalid"],
-           
+        $message = [
+            "username.required" => ["code" => 3007, "message" => "username is required"],
+            "username.regex" => ["code" => 3008, "message" => "username is invalid"],
+
         ];
 
-        $validator=Validator::make($request->all(),[
-            "email"=> ["required","email",new EmailExist()]
-        ],$message);
+        $validator = Validator::make($request->all(), [
+            "username" => ["required", "regex:/(^([a-zA-z]+)(\d+)?$)/u"]
+        ], $message);
 
-        if ($validator->fails()){
+        if ($validator->fails()) {
 
-            $response= $validator->errors()->messages();
+            $response = $validator->errors()->messages();
 
-            return response($response["email"][0]);
+            return response($response["username"][0]);
         }
-        
         return $next($request);
     }
 }

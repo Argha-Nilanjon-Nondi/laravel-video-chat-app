@@ -18,14 +18,14 @@ class VerifyTempTokenOtp
      */
     public function handle(Request $request, Closure $next)
     {
-        $required_minute=10; //time for otp expiration
+        $required_minute=30; //time for otp expiration
         $otp = $request->otp;
-        $temp_token = $request->temp_token;
+        $token = $request->token;
         $otp_hashed = hash("sha256", $otp);
 
        $emailVerify=EmailVerify::select("updated_at")->where([
            ["otp","=",$otp_hashed],
-           ["temp_token","=",$temp_token]
+           ["token","=",$token]
         ])->orderBy("updated_at", "desc");
 
         if($emailVerify->count()==0){
@@ -36,7 +36,7 @@ class VerifyTempTokenOtp
         $datetime=$datetime[0]["updated_at"];
 
 
-        $to =Carbon::createFromFormat('Y-m-d H:s:i', $datetime);
+        $to =Carbon::parse($datetime);
         $from=Carbon::now();
 
         $diff_in_minutes = $to->diffInMinutes($from);

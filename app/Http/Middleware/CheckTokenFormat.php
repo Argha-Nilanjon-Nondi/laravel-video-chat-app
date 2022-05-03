@@ -5,9 +5,8 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use App\Rules\UsernameExist;
 
-class CheckUsername
+class CheckTokenFormat
 {
     /**
      * Handle an incoming request.
@@ -19,21 +18,22 @@ class CheckUsername
     public function handle(Request $request, Closure $next)
     {
         $message = [
-            "username.required" => ["code" => 3007, "message" => "username is required"],
-            "username.regex" => ["code" => 3008, "message" => "username is invalid"],
+            "token.required" => ["code" => 3013, "message" => "token is required"],
+            "token.regex" => ["code" => 3014, "message" => "token is invalid"],
 
         ];
 
         $validator = Validator::make($request->all(), [
-            "username" => ["required", "regex:/(^([a-zA-z]+)(\d+)?$)/u", new UsernameExist()]
+            "token" => ["required", "regex:/^([a-f0-9]{64})$/u"]
         ], $message);
 
         if ($validator->fails()) {
 
             $response = $validator->errors()->messages();
 
-            return response($response["username"][0]);
+            return response($response["token"][0]);
         }
+
         return $next($request);
     }
 }

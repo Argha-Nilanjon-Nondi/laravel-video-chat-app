@@ -64,11 +64,14 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-        "check-email"=>\App\Http\Middleware\CheckEmail::class,
-        "check-username" => \App\Http\Middleware\CheckUsername::class,
+        "check-email-format"=>\App\Http\Middleware\CheckEmailFormat::class,
+        "email-exist"=>\App\Http\Middleware\EmailExist::class,
+        "check-username-format" => \App\Http\Middleware\CheckUsernameFormat::class,
+        "username-exist"=>\App\Http\Middleware\UsernameExist::class,
         "check-password" => \App\Http\Middleware\CheckPassword::class,
         "check-otp-format"=>\App\Http\Middleware\CheckOTPFormat::class,
-        "check-temp-token-format"=>\App\Http\Middleware\CheckTempTokenFormat::class,
+        "check-token-format"=>\App\Http\Middleware\CheckTokenFormat::class,
+        "temp-token-exist"=>\App\Http\Middleware\TempTokenExist::class,
         "verify-temp-token-otp"=>\App\Http\Middleware\VerifyTempTokenOtp::class
     ];
 }
