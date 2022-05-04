@@ -1,4 +1,8 @@
 code,message,response,request
+2000,"user is created , verify with otp code",,
+2001,email is successfully verified,,
+2002,"otp is sent , verify your email",,
+2003,login is successful,,
 3001,email is required,,
 3002,email address is invalid,,
 3003,email address is already exist,,
@@ -16,6 +20,5 @@ code,message,response,request
 3015,token is not found,,
 3016,otp is not found,,
 3017,otp is not valid anymore,,
-2000,"user is created , verify with otp code",,
-2001,email is successfully verified,,
-2002,"otp is sent , verify your email",,
+3018,email and password is invalid,,
+3019,token is not found,,
