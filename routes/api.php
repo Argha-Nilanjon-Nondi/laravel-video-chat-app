@@ -37,14 +37,17 @@ Route::post("/login", [AuthController::class, "login"])
     "verify-email-password"
 ]);
 
-Route::post("/forget_password",[AuthController::class,"forget_password"])->middleware([
+
+Route::post("/password/forget", [AuthController::class, "send_reset_otp"])->middleware([
+    "check-email-format",
+    "is-email-exist"
+]);
+
+Route::post("/password/otp/verify",[AuthController::class,"forget_password"])->middleware([
     "check-otp-format",
     "check-token-format",
     "forget-password-token-exist",
     "check-password-format",
     "verify-otp-forget-password"
 ]);
-Route::post("/send_reset_otp",[AuthController::class, "send_reset_otp"])->middleware([
-    "check-email-format",
-    "is-email-exist"
-]);
+

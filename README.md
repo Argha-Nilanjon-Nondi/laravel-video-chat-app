@@ -1,64 +1,326 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+## API Reference
+### Signup User
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+#### URL
+```http
+POST /api/signup/
+```
 
-## About Laravel
+#### Request
+```json
+{
+    "email":"test001@gmail.com",
+    "username":"username_001",
+    "password":"User001$"
+}
+```
+#### Response
+```json
+{
+    "code": 2000,
+    "message": "user is created , verify with otp code",
+    "data": {
+        "token": "e4e98a42399835ea7a9c73ec8f7e16c0e8146b4e5b3e7c79c435456c587217a0"
+    }
+}
+```
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+<br />
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Verify email with OTP
+#### URL
+```http
+POST /api/otp/verify/
+```
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+#### Request
+```json
+{
+    "otp":"1879",
+    "token":"e4e98a42399835ea7a9c73ec8f7e16c0e8146b4e5b3e7c79c435456c587217a0"
+}
+```
+#### Response
+```json
+{
+    "code": 2001,
+    "message": "email is successfully verified"
+}
+```
 
-## Learning Laravel
+<br />
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Resend OTP for email verification
+#### URL
+```http
+POST /api/otp/resend
+```
 
-## Laravel Sponsors
+#### Request
+```json
+{
+    "token":"8e0541b09c2de02d98d4aab9bc8832c05af8274f02fa828c30e710732b1eb210"
+}
+```
+#### Response
+```json
+{
+    "code": 2002,
+    "message": "otp is sent , verify your email",
+    "data": {
+        "token": "4416ba3eafc52e75741bfacea669dcb26e87612409cc49a740d77876fc9b812a"
+    }
+}
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+<br />
 
-### Premium Partners
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+### Login
+#### URL
+```http
+POST /api/login/
+```
 
-## Contributing
+#### Request
+```json
+{
+    "email":"test001@gmail.com",
+    "password":"User001$"
+}
+```
+#### Response
+```json
+{
+    "code": 2003,
+    "message": "login is successful",
+    "data": {
+        "token": "fd7ba1b2c60c76424661346430c57aa30219942bd2b7c7ba9f45ed610c422677"
+    }
+}
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+<br />
 
-## Code of Conduct
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### If user forget password
+#### URL
+```http
+POST /api/password/forget
+```
 
-## Security Vulnerabilities
+#### Request
+```json
+{
+    "email":"pcic095@gmail.com"
+}
+```
+#### Response
+```json
+{
+    "code": 2004,
+    "message": "otp for password reset is sent",
+    "data": {
+        "token": "ce0d6b703fae787aa587e0988f5b97f7242c134856f0d19a3ccac5b70ca436f7"
+    }
+}
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+<br />
 
-## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### Verify OTP for password reset without login
+#### URL
+```http
+POST /api/password/otp/verify
+```
+
+#### Request
+```json
+{
+    "token":"ce0d6b703fae787aa587e0988f5b97f7242c134856f0d19a3ccac5b70ca436f7",
+    "otp":"4055",
+    "password":"Aftrtdfgdrt5656765$54632w556"
+}
+```
+#### Response
+```json
+{
+    "code": 2005,
+    "message": "password is changed"
+}
+```
+
+<br />
+
+
+
+#### URL
+```http
+POST /api/
+```
+
+#### Request
+```json
+```
+#### Response
+```json
+```
+
+<br />
+
+
+
+#### URL
+```http
+POST /api/
+```
+
+#### Request
+```json
+```
+#### Response
+```json
+```
+
+<br />
+
+
+#### URL
+```http
+POST /api/
+```
+
+#### Request
+```json
+```
+#### Response
+```json
+```
+
+<br />
+
+
+
+#### URL
+```http
+POST /api/
+```
+
+#### Request
+```json
+```
+#### Response
+```json
+```
+
+<br />
+
+
+#### URL
+```http
+POST /api/
+```
+
+#### Request
+```json
+```
+#### Response
+```json
+```
+
+<br />
+
+
+
+#### URL
+```http
+POST /api/
+```
+
+#### Request
+```json
+```
+#### Response
+```json
+```
+
+<br />
+
+
+
+#### URL
+```http
+POST /api/
+```
+
+#### Request
+```json
+```
+#### Response
+```json
+```
+
+<br />
+
+
+
+#### URL
+```http
+POST /api/
+```
+
+#### Request
+```json
+```
+#### Response
+```json
+```
+
+<br />
+
+
+#### URL
+```http
+POST /api/
+```
+
+#### Request
+```json
+```
+#### Response
+```json
+```
+
+<br />
+
+
+#### URL
+```http
+POST /api/
+```
+
+#### Request
+```json
+```
+#### Response
+```json
+```
+
+<br />
+
+
+#### URL
+```http
+POST /api/
+```
+
+#### Request
+```json
+```
+#### Response
+```json
+```
+
+<br />

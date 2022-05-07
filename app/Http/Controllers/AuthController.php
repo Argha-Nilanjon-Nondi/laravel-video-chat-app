@@ -65,18 +65,15 @@ class AuthController extends Controller
         $fpDB = ForgetPassword::where([
             ["token", "=", $token]
         ])->orderBy("updated_at", "desc");
+        $email = $fpDB->get()[0]["email"];
 
-        $user
-
-        $data = $fpDB->get()[0];
-        $email=$data["email"];
+        $user=User::where([["email","=",$email]]);
+        $userid= $user->get()[0]["userid"];
 
         PersonalToken::where("userid", $userid)->delete();
-
-        $user=User::where(["email"=>$email]);
-        $user->update(["password"=>$password_hashed]);
-
         ForgetPassword::where("email", $email)->delete();
+
+        $user->update(["password"=>$password_hashed]);
 
         return response(["code"=>2005,"message"=>"password is changed"]);
     }
