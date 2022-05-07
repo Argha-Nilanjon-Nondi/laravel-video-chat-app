@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class CheckPassword
+class CheckPasswordFormat
 {
     /**
      * Handle an incoming request.

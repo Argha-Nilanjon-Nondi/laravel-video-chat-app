@@ -3,6 +3,8 @@ code,message,response,request
 2001,email is successfully verified,,
 2002,"otp is sent , verify your email",,
 2003,login is successful,,
+2004,otp for password reset is sent,,
+2005,password is changed,,
 3001,email is required,,
 3002,email address is invalid,,
 3003,email address is already exist,,
@@ -22,3 +24,4 @@ code,message,response,request
 3017,otp is not valid anymore,,
 3018,email and password is invalid,,
 3019,token is not found,,
+3020,email address is not exist,,

@@ -68,10 +68,14 @@ class Kernel extends HttpKernel
         "email-exist"=>\App\Http\Middleware\EmailExist::class,
         "check-username-format" => \App\Http\Middleware\CheckUsernameFormat::class,
         "username-exist"=>\App\Http\Middleware\UsernameExist::class,
-        "check-password" => \App\Http\Middleware\CheckPassword::class,
+        "check-password-format" => \App\Http\Middleware\CheckPasswordFormat::class,
         "check-otp-format"=>\App\Http\Middleware\CheckOTPFormat::class,
         "check-token-format"=>\App\Http\Middleware\CheckTokenFormat::class,
         "temp-token-exist"=>\App\Http\Middleware\TempTokenExist::class,
-        "verify-temp-token-otp"=>\App\Http\Middleware\VerifyTempTokenOtp::class
+        "verify-temp-token-otp"=>\App\Http\Middleware\VerifyTempTokenOtp::class,
+        "verify-email-password"=>\App\Http\Middleware\VerifyEmailPassword::class,
+        "is-email-exist"=>\App\Http\Middleware\IsEmailExist::class,
+        "verify-otp-forget-password"=>\App\Http\Middleware\VerifyOTPForgetPassword::class,
+        "forget-password-token-exist"=>\App\Http\Middleware\ForgetPasswordTokenExist::class,
     ];
 }

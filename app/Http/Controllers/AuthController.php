@@ -5,22 +5,18 @@ namespace App\Http\Controllers;
 use App\Models\PersonalToken;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Mail\SendOTPMail;
+use Illuminate\Support\Facades\Mail;
+use App\Models\ForgetPassword;
 
 class AuthController extends Controller
 {
     public function login(Request $request){
 
-        $password_hashed=hash("sha256", $request->password);
-
         $user = User::where([
-            ["email", "=", $request->email],
-            ["password", "=", $password_hashed]
+            ["email", "=", $request->email]
         ]);
-
-        if ($user->count() == 0) {
-            return response(["code" => 3018, "message" => "email and password is invalid"]);
-        }
-
+        
         $data=$user->get()[0];
         $userid=$data["userid"];
         $tokenid= random_int(1000000000, 99999999999);
@@ -34,5 +30,54 @@ class AuthController extends Controller
         $tokendb->save();
 
         return response(["code" => 2003, "message" => "login is successful","data"=>["token"=>$token_hashed]]);
+    }
+
+    public function send_reset_otp(Request $request){
+        $email=$request->email;
+
+        $otp = random_int(1000, 9999);
+        $otp_hashed = hash("sha256", $otp);
+        $token = random_int(1000, 9989898978999);
+        $token_hashed = hash("sha256", $token);
+
+        ForgetPassword::where("email", $email)->delete();
+
+        $fpDB=new ForgetPassword();
+        $fpDB->email=$email;
+        $fpDB->otp=$otp_hashed;
+        $fpDB->token=$token_hashed;
+        $fpDB->save();
+
+
+        $detail = ["otp" => $otp];
+        Mail::to($email)->send(new SendOTPMail($detail));
+
+        return response(["code"=>2004,"message"=> "otp for password reset is sent","data"=>["token"=>$token_hashed]]);
+    }
+
+    public function forget_password(Request $request){
+
+        $token=$request->token;
+
+        $password=$request->password;
+        $password_hashed = hash("sha256", $password);
+
+        $fpDB = ForgetPassword::where([
+            ["token", "=", $token]
+        ])->orderBy("updated_at", "desc");
+
+        $user
+
+        $data = $fpDB->get()[0];
+        $email=$data["email"];
+
+        PersonalToken::where("userid", $userid)->delete();
+
+        $user=User::where(["email"=>$email]);
+        $user->update(["password"=>$password_hashed]);
+
+        ForgetPassword::where("email", $email)->delete();
+
+        return response(["code"=>2005,"message"=>"password is changed"]);
     }
 }
